@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 
 public enum Direction { Up, Down, Idle }
 
@@ -9,7 +10,7 @@ public class Elevator : MonoBehaviour
 {
     [Header("Floor References")]
     public List<Transform> floorWaypoints = new List<Transform>();
-
+    [SerializeField] private TextMeshProUGUI Floor;
     [Header("Settings")]
     public float speed = 500f;
     public float waitTime = 2f;
@@ -20,6 +21,10 @@ public class Elevator : MonoBehaviour
     public List<int> destinationQueue = new List<int>();
     public bool isMoving = false;
 
+    private void Awake()
+    {
+        
+    }
     public void AddRequest(int floor)
     {
         if (!destinationQueue.Contains(floor))
@@ -58,6 +63,7 @@ public class Elevator : MonoBehaviour
 
             transform.position = targetPos;
             currentFloor = nextTarget;
+            Floor.text = currentFloor.ToString();
             destinationQueue.RemoveAt(0);
             yield return new WaitForSeconds(waitTime);
 
